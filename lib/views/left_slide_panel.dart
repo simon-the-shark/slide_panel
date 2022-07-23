@@ -18,10 +18,10 @@ class LeftSlidePanel extends StatefulWidget {
       this.appbarIsExist})
       : super(key: key);
   @override
-  _LeftSlidePanelState createState() => _LeftSlidePanelState();
+  LeftSlidePanelState createState() => LeftSlidePanelState();
 }
 
-class _LeftSlidePanelState extends State<LeftSlidePanel>
+class LeftSlidePanelState extends State<LeftSlidePanel>
     with SingleTickerProviderStateMixin {
   static const Duration toggleDuration = Duration(milliseconds: 250);
   AnimationController _animationController;

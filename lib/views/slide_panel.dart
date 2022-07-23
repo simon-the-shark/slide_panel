@@ -4,6 +4,7 @@ import 'package:slide_panel/models/is_opened_provider.dart';
 import 'package:slide_panel/views/body_panel.dart';
 import 'package:slide_panel/views/left_slide_panel.dart';
 import 'package:slide_panel/views/right_slide_panel.dart';
+import 'package:slide_panel/models/slide_controller.dart';
 
 class SlidePanel extends StatefulWidget {
   final Widget body;
@@ -16,7 +17,7 @@ class SlidePanel extends StatefulWidget {
   final bool leftPanelVisible;
   final bool rightPanelVisible;
   final bool appbarIsExist;
-
+  final void Function(SlideController) registerSlideController;
   const SlidePanel(
       {Key key,
       this.body,
@@ -28,6 +29,7 @@ class SlidePanel extends StatefulWidget {
       this.slideOffBodyTap,
       this.leftPanelVisible,
       this.rightPanelVisible,
+      this.registerSlideController,
       this.appbarIsExist = true})
       : super(key: key);
   @override
@@ -36,8 +38,12 @@ class SlidePanel extends StatefulWidget {
 
 class _SlidePanelState extends State<SlidePanel> {
   bool isOpened = false;
+
+  final slideController = SlideController();
+
   @override
   Widget build(BuildContext context) {
+    widget.registerSlideController(slideController);
     return ChangeNotifierProvider<IsOpenedProvider>(
       create: (_) => IsOpenedProvider(),
       child: Stack(
@@ -48,6 +54,7 @@ class _SlidePanelState extends State<SlidePanel> {
           ),
           widget.leftPanelVisible
               ? LeftSlidePanel(
+                  key: slideController.leftSlideKey,
                   body: Container(
                       width: widget.slidePanelWidth + widget.slideHandlerWidth,
                       height: widget.slidePanelHeight,
@@ -61,6 +68,7 @@ class _SlidePanelState extends State<SlidePanel> {
               : Container(),
           widget.rightPanelVisible
               ? RightSlidePanel(
+                  key: slideController.rightSlideKey,
                   body: Container(
                       width: widget.slidePanelWidth + widget.slideHandlerWidth,
                       height: widget.slidePanelHeight,
